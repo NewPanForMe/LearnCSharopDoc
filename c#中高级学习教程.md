@@ -12,6 +12,8 @@
 
 
 
+## 系统中优先使用异步方法
+
 ## 数据库链接字符串
 
 ### PostgreSQL
@@ -276,7 +278,7 @@ Console.WriteLine(s);
 Console.ReadLine();
 ```
 
-![image-20230507154731159](D:\LearnDoc\pic\image-20230507154731159.png)
+![image-20230507154731159](.\pic\image-20230507154731159.png)
 
 变量s在读取时，仍然在reader的作用域内，需要增加作用域`{}`
 
@@ -333,7 +335,7 @@ public class Student
 
 此时编译器会提示。
 
-![image-20230507160003456](D:\LearnDoc\pic\image-20230507160003456.png)
+![image-20230507160003456](.\pic\image-20230507160003456.png)
 
 在对应属性的类型后面添加？
 
@@ -358,7 +360,7 @@ Student GetData()
 }
 ```
 
-![image-20230507160640816](D:\LearnDoc\pic\image-20230507160640816.png)
+![image-20230507160640816](.\pic\image-20230507160640816.png)
 
 可以改成下面的写法,就不会有null引用异常
 
@@ -418,7 +420,7 @@ Console.WriteLine(p1.FirstName);
 public record Person(string FirstName, string LastName);
 ```
 
-![image-20230507161524922](D:\LearnDoc\pic\image-20230507161524922.png)
+![image-20230507161524922](.\pic\image-20230507161524922.png)
 
 通过反编译查看record内容
 
@@ -513,7 +515,7 @@ Console.WriteLine(p1==p3);
 p1.SayHello();
 ```
 
-![image-20230507162813775](D:\LearnDoc\pic\image-20230507162813775.png)
+![image-20230507162813775](.\pic\image-20230507162813775.png)
 
 ##### 给record方法提供额外的构造方法
 
@@ -568,7 +570,7 @@ var readAllTextAsync = await File.ReadAllTextAsync(path);
 Console.WriteLine(readAllTextAsync);
 ```
 
-![image-20230508132412633](D:\LearnDoc\pic\image-20230508132412633.png)
+![image-20230508132412633](.\pic\image-20230508132412633.png)
 
 #### 自定义异步方法
 
@@ -592,7 +594,7 @@ async Task<int> DownloadAsync(string url,string location)
 }
 ```
 
-![image-20230508133605346](D:\LearnDoc\pic\image-20230508133605346.png)
+![image-20230508133605346](.\pic\image-20230508133605346.png)
 
 ##### 初探异步编程原理
 
@@ -617,7 +619,7 @@ async Task<string> GetStringAsync(string url)
 
 异步方法生成的程序集
 
-![image-20230508134842908](D:\LearnDoc\pic\image-20230508134842908.png)
+![image-20230508134842908](.\pic\image-20230508134842908.png)
 
 ```C#
 [CompilerGenerated]
@@ -910,7 +912,7 @@ Console.WriteLine($"4-TheadId={Thread.CurrentThread.ManagedThreadId}");
 
 `Thread.CurrentThread.ManagedThreadId`获得当前线程的ID
 
-![image-20230508142028158](D:\LearnDoc\pic\image-20230508142028158.png)
+![image-20230508142028158](.\pic\image-20230508142028158.png)
 
 ###### 结论：
 
@@ -937,7 +939,7 @@ async Task<double> CalcAsync(int n)
 }
 ```
 
-![image-20230508144304578](D:\LearnDoc\pic\image-20230508144304578.png)
+![image-20230508144304578](.\pic\image-20230508144304578.png)
 
 所有的线程ID都是同一个数字。说明异步!=多线程。
 
@@ -964,7 +966,7 @@ async Task<double> CalcAsync(int n)
 }
 ```
 
-![image-20230508144842212](D:\LearnDoc\pic\image-20230508144842212.png)
+![image-20230508144842212](.\pic\image-20230508144842212.png)
 
 ##### 未使用async修饰的方法
 
@@ -1063,7 +1065,7 @@ var whenAll = await Task.WhenAny(result, result2, result3);
 Console.WriteLine(whenAll.Result);
 ```
 
-![image-20230508180557850](D:\LearnDoc\pic\image-20230508180557850.png)
+![image-20230508180557850](.\pic\image-20230508180557850.png)
 
 6，接口中的方法或抽象类中的方法，不能修饰为async
 
@@ -1275,7 +1277,7 @@ Console.WriteLine("===============");
 employee.ForEach(Console.WriteLine);
 ```
 
-![image-20230509151255556](D:\LearnDoc\pic\image-20230509151255556.png)
+![image-20230509151255556](.\pic\image-20230509151255556.png)
 
 ###### 7，Skip/Take
 
@@ -1297,7 +1299,7 @@ var employees = Data.Employees.Max(x=>x.Id);
 Console.WriteLine(employees);
 ```
 
-![image-20230509161713481](D:\LearnDoc\pic\image-20230509161713481.png)
+![image-20230509161713481](.\pic\image-20230509161713481.png)
 
 Min
 
@@ -1307,7 +1309,7 @@ var employees = Data.Employees.Min(x=>x.Id);
 Console.WriteLine(employees);
 ```
 
-![image-20230509161744486](D:\LearnDoc\pic\image-20230509161744486.png)
+![image-20230509161744486](.\pic\image-20230509161744486.png)
 
 Average
 
@@ -1317,7 +1319,7 @@ var employees = Data.Employees.Average(x=>x.Salary);
 Console.WriteLine(employees);
 ```
 
-![image-20230509162002721](D:\LearnDoc\pic\image-20230509162002721.png)
+![image-20230509162002721](.\pic\image-20230509162002721.png)
 
 没有参数的聚合函数
 
@@ -1329,7 +1331,7 @@ var average = ints.Where(x=>x>200).Average();
 Console.WriteLine(average);
 ```
 
-![image-20230509162336609](D:\LearnDoc\pic\image-20230509162336609.png)
+![image-20230509162336609](.\pic\image-20230509162336609.png)
 
 ###### 9，GroupBy
 
@@ -1346,7 +1348,7 @@ foreach (var employee in employees)
 }
 ```
 
-![image-20230509163011892](D:\LearnDoc\pic\image-20230509163011892.png)
+![image-20230509163011892](.\pic\image-20230509163011892.png)
 
 ###### 10，投影(Select)
 
@@ -1357,7 +1359,7 @@ var employees = Data.Employees.Select(x => x.Gender? "男":"女").ToList();
 employees.ForEach(Console.WriteLine);
 ```
 
-![image-20230509163413508](D:\LearnDoc\pic\image-20230509163413508.png)
+![image-20230509163413508](.\pic\image-20230509163413508.png)
 
 ###### 11，集合转换 Tolist() ToArray()
 
@@ -1387,7 +1389,7 @@ foreach (var employee in employees)
 }
 ```
 
-![image-20230509164511614](D:\LearnDoc\pic\image-20230509164511614.png)
+![image-20230509164511614](.\pic\image-20230509164511614.png)
 
 ##### Linq的另一种写法
 
@@ -1405,7 +1407,7 @@ Console.WriteLine("==============");
 list1.ForEach(Console.WriteLine);
 ```
 
-![image-20230509165035139](D:\LearnDoc\pic\image-20230509165035139.png)
+![image-20230509165035139](.\pic\image-20230509165035139.png)
 
 
 
@@ -1490,7 +1492,7 @@ testServiceImpl.Name = "Yssss";
 testServiceImpl.SayHello();
 ```
 
-![image-20230510151701106](D:\LearnDoc\pic\image-20230510151701106.png)
+![image-20230510151701106](.\pic\image-20230510151701106.png)
 
 >拓展：如果接口的实现类继承了IDisposable，那么就会在方法执行结束，自动调用对象的Dispose()方法，释放资源。
 
@@ -1504,7 +1506,7 @@ testServiceImpl.SayHello();
     }
 ```
 
-![image-20230510152143218](D:\LearnDoc\pic\image-20230510152143218.png)
+![image-20230510152143218](.\pic\image-20230510152143218.png)
 >默认情况下，不允许长生命周期的对象调用短生命周期的对象
 
 ##### 2，依赖注入例子
@@ -1634,7 +1636,7 @@ Console.WriteLine($"address={address}");
 Console.WriteLine($"port={port}");
 ```
 
-![image-20230510215117304](D:\LearnDoc\pic\image-20230510215117304.png)
+![image-20230510215117304](.\pic\image-20230510215117304.png)
 
 ##### 通过选项方式读取配置
 
@@ -1730,7 +1732,7 @@ while (true)
 }
 ```
 
-![image-20230510223016992](D:\LearnDoc\pic\image-20230510223016992.png)
+![image-20230510223016992](.\pic\image-20230510223016992.png)
 
 ##### 通过命令行读取
 
@@ -1745,7 +1747,7 @@ var s = configurationRoot["server"];
 Console.WriteLine(s);
 ```
 
-![image-20230510223649067](D:\LearnDoc\pic\image-20230510223649067.png)
+![image-20230510223649067](.\pic\image-20230510223649067.png)
 
 通过环境变量读取
 
@@ -1898,7 +1900,7 @@ using var serviceScope = services.BuildServiceProvider().CreateScope();
 serviceScope.ServiceProvider.GetRequiredService<Test>().TestA();
 ```
 
-![image-20230511003714784](D:\LearnDoc\pic\image-20230511003714784.png)
+![image-20230511003714784](.\pic\image-20230511003714784.png)
 
 
 
@@ -2238,7 +2240,7 @@ builder.Property(x => x.AuthorName).HasMaxLength(20).IsRequired();
 
 Guid的生成是不连续的，聚集索引是按照顺序保存主键的。
 
-![image-20230512150157779](D:\LearnDoc\pic\image-20230512150157779.png)
+![image-20230512150157779](.\pic\image-20230512150157779.png)
 
 ```C#
 public record Author
@@ -2439,7 +2441,7 @@ var books = dbContext.Books.ToList();
 books.ForEach(Console.WriteLine);
 ```
 
-![image-20230512161857049](D:\LearnDoc\pic\image-20230512161857049.png)
+![image-20230512161857049](.\pic\image-20230512161857049.png)
 
 ##### 探究EF Core生成数据库语句的不同
 
@@ -2531,7 +2533,7 @@ if (firstOrDefault != null)
 }
 ```
 
-![image-20230514145044209](D:\LearnDoc\pic\image-20230514145044209.png)
+![image-20230514145044209](.\pic\image-20230514145044209.png)
 
 ##### 实体类对象的关联追踪
 
@@ -2554,7 +2556,7 @@ await dbContext.SaveChangesAsync();
 
 反着写也是可以的。
 
-![image-20230514145513152](D:\LearnDoc\pic\image-20230514145513152.png)
+![image-20230514145513152](.\pic\image-20230514145513152.png)
 
 ##### 关联的外键属性的设置
 
@@ -2645,7 +2647,7 @@ if (firstOrDefault != null)
 }
 ```
 
-![image-20230515132828017](D:\LearnDoc\pic\image-20230515132828017.png)
+![image-20230515132828017](.\pic\image-20230515132828017.png)
 
 举例：
 
@@ -2815,9 +2817,9 @@ if (firstOrDefault != null)
 }
 ```
 
-![image-20230515140303914](D:\LearnDoc\pic\image-20230515140303914.png)
+![image-20230515140303914](.\pic\image-20230515140303914.png)
 
-![image-20230515140316124](D:\LearnDoc\pic\image-20230515140316124.png)
+![image-20230515140316124](.\pic\image-20230515140316124.png)
 
 ##### 多对多
 
@@ -2906,9 +2908,9 @@ students.ForEach(x =>
 });
 ```
 
-![image-20230515142948447](D:\LearnDoc\pic\image-20230515142948447.png)
+![image-20230515142948447](.\pic\image-20230515142948447.png)
 
-![image-20230515143002509](D:\LearnDoc\pic\image-20230515143002509.png)
+![image-20230515143002509](.\pic\image-20230515143002509.png)
 
 ##### 基于关系的复杂查询
 
@@ -2966,7 +2968,7 @@ var str = new int[] {1,2,34, };
 var enumerable = str.Where(x=>x==1);
 ```
 
-![image-20230515144728301](D:\LearnDoc\pic\image-20230515144728301.png)
+![image-20230515144728301](.\pic\image-20230515144728301.png)
 
 这里的Where继承自IEnumerable接口
 
@@ -2975,7 +2977,7 @@ var articles = _db.Comment.Where(x=>x.Message.PadLeft(3)=="你").ToList();
 articles.ForEach(Console.WriteLine);
 ```
 
-![image-20230515144804597](D:\LearnDoc\pic\image-20230515144804597.png)
+![image-20230515144804597](.\pic\image-20230515144804597.png)
 
 这里的Where继承自IQueryable接口。
 
@@ -3035,7 +3037,7 @@ IQueryable<Book> articles = _db.Books.Where(x => x.Price >= 1.1);
 Console.WriteLine(articles);
 ```
 
-![image-20230515150413713](D:\LearnDoc\pic\image-20230515150413713.png)
+![image-20230515150413713](.\pic\image-20230515150413713.png)
 
 没有SQL生成。修改代码
 
@@ -3050,11 +3052,11 @@ foreach (var article in articles)
 Console.WriteLine("3.遍历IQueryable之后");
 ```
 
-![image-20230515150646723](D:\LearnDoc\pic\image-20230515150646723.png)
+![image-20230515150646723](.\pic\image-20230515150646723.png)
 
-![image-20230515150714042](D:\LearnDoc\pic\image-20230515150714042.png)
+![image-20230515150714042](.\pic\image-20230515150714042.png)
 
-![image-20230515150726601](D:\LearnDoc\pic\image-20230515150726601.png)
+![image-20230515150726601](.\pic\image-20230515150726601.png)
 
 在开始遍历时，才开始执行。
 
@@ -3167,7 +3169,7 @@ var executeSqlInterpolatedAsync =
 Console.WriteLine(executeSqlInterpolatedAsync);
 ```
 
-![image-20230529094354219](D:\LearnDoc\pic\image-20230529094354219.png)
+![image-20230529094354219](.\pic\image-20230529094354219.png)
 
 使用{name}这个情况下不会有SQL注入风险。
 
@@ -3188,7 +3190,7 @@ foreach (var book in fromSqlInterpolated)
 }
 ```
 
-![image-20230529100100273](D:\LearnDoc\pic\image-20230529100100273.png)
+![image-20230529100100273](.\pic\image-20230529100100273.png)
 
 修改方法
 
@@ -3266,7 +3268,7 @@ Console.WriteLine("book4.State:" + entityEntry4.State);
 Console.WriteLine("book5.State:" + entityEntry5.State);
 ```
 
-![image-20230529102455866](D:\LearnDoc\pic\image-20230529102455866.png)
+![image-20230529102455866](.\pic\image-20230529102455866.png)
 
 
 
@@ -3285,7 +3287,7 @@ Console.WriteLine("book1.State:"+ entityEntry1.State);
 Console.WriteLine("book1.DebugView:" + entityEntry1.DebugView.LongView);
 ```
 
-![image-20230529102937116](D:\LearnDoc\pic\image-20230529102937116.png)
+![image-20230529102937116](.\pic\image-20230529102937116.png)
 
 如果查询出来的数据，不会被新增、修改、删除就可以使用AsNoTracking，降低EF Core的占用。
 
@@ -3536,7 +3538,7 @@ builder.Property(x => x.RowVer).IsRowVersion();
 Expression<Func<Book, bool>> e1 = book => book.Price > 5;
 ```
 
-![image-20230529165245512](D:\LearnDoc\pic\image-20230529165245512.png)
+![image-20230529165245512](.\pic\image-20230529165245512.png)
 
 ### 2，Expression和Func的区别
 
@@ -3578,7 +3580,7 @@ Expression<Func<Book, bool>> e2 = book => book.Price > 5;
 Console.WriteLine(e1);Console.WriteLine(e2);
 ```
 
-![image-20230529170048736](D:\LearnDoc\pic\image-20230529170048736.png)
+![image-20230529170048736](.\pic\image-20230529170048736.png)
 
 Func在输出结果中，没有运算逻辑，只有参数类型及返回值。
 
@@ -3609,7 +3611,7 @@ Console.WriteLine(e2.ToString("Object Notation","C#"));
 Console.ReadLine();
 ```
 
-![image-20230529171520152](D:\LearnDoc\pic\image-20230529171520152.png)
+![image-20230529171520152](.\pic\image-20230529171520152.png)
 
 ### 4，通过代码动态构建表达式树
 
@@ -3636,7 +3638,7 @@ BinaryExpression：通过MakeBinary创建了`>`这个节点，并将exprLeft、e
 
 Lambda：通过Lambda方法将节点放入表达式树节点中。Lambda方法用于规定表达式的参数与返回值类型。
 
-![image-20230529174147212](D:\LearnDoc\pic\image-20230529174147212.png)
+![image-20230529174147212](.\pic\image-20230529174147212.png)
 
 ### 5，让动态构建表达式树更简单
 
@@ -3647,7 +3649,7 @@ Expression<Func<Book, bool>> e2 = book => book.Price > 5 || book.AuthorName=="ys
 Console.WriteLine(e2.ToString("Factory methods", "C#"));
 ```
 
-![image-20230529174550484](D:\LearnDoc\pic\image-20230529174550484.png)
+![image-20230529174550484](.\pic\image-20230529174550484.png)
 
  
 
@@ -3796,7 +3798,7 @@ public object SavePerson(long classId, Person person)
 }
 ```
 
-![image-20230530172830586](D:\LearnDoc\pic\image-20230530172830586.png)
+![image-20230530172830586](.\pic\image-20230530172830586.png)
 
 ### 6，WebApi案例
 
@@ -3953,7 +3955,7 @@ builder.Services.AddCors(option =>
 {
     option.AddPolicy(name: "myCors", build =>
     {
-        build.AllowAnyHeader().AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        build.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
     });
 });
 ```
@@ -4110,13 +4112,13 @@ launchSettings.json：标颜色位置
 
 在项目名上右击，可以看到“管理用户机密”。
 
-![image-20230601165218641](D:\LearnDoc\pic\image-20230601165218641.png)
+![image-20230601165218641](.\pic\image-20230601165218641.png)
 
-![image-20230601165245056](D:\LearnDoc\pic\image-20230601165245056.png)
+![image-20230601165245056](.\pic\image-20230601165245056.png)
 
 在对应的项目文件里面，就是多一行`UserSecretsId`
 
-![image-20230601165336254](D:\LearnDoc\pic\image-20230601165336254.png)
+![image-20230601165336254](.\pic\image-20230601165336254.png)
 
 
 
@@ -4346,9 +4348,9 @@ public class MemoryCacheController : ControllerBase
 }
 ```
 
-![image-20230605095007288](D:\LearnDoc\pic\image-20230605095007288.png)
+![image-20230605095007288](.\pic\image-20230605095007288.png)
 
-![image-20230605095016563](D:\LearnDoc\pic\image-20230605095016563.png)
+![image-20230605095016563](.\pic\image-20230605095016563.png)
 
 第一次执行因为内存中没有，所以要去数据库查讯。
 
@@ -4381,7 +4383,7 @@ public async Task<Book[]> Demo1()
 
 ```
 
-![image-20230605100736487](D:\LearnDoc\pic\image-20230605100736487.png)
+![image-20230605100736487](.\pic\image-20230605100736487.png)
 
 在设置的时间结束后，内存的数据缓存已经失效。
 
@@ -4405,7 +4407,7 @@ public async Task<Book[]> Demo2()
 }
 ```
 
-![image-20230605101420316](D:\LearnDoc\pic\image-20230605101420316.png)
+![image-20230605101420316](.\pic\image-20230605101420316.png)
 
 缓存用户信息在内存中，尽量使用滑动缓存时间，当用户之访问一次，则在指定时间后过期。如梭用户一直访问，那个过期时间一直被延长。
 
@@ -4610,7 +4612,7 @@ public string Now()
 }
 ```
 
-![image-20230605114932419](D:\LearnDoc\pic\image-20230605114932419.png)
+![image-20230605114932419](.\pic\image-20230605114932419.png)
 
 #### 10，封装分布式缓存操作类
 
@@ -4808,7 +4810,7 @@ app.Map("/Test", appBuilder =>
 });
 ```
 
-![image-20230605150237529](D:\LearnDoc\pic\image-20230605150237529.png)
+![image-20230605150237529](.\pic\image-20230605150237529.png)
 
 
 
@@ -5148,31 +5150,433 @@ service.AddSwaggerGen(x =>
 
 - 当前用户被删除
 - 攻击者拿到Token
-- 用户在A上已经登录，又在b登录时
+- 用户在A上已经登录，又在B登录时
 
 思路：在user表中，新增一个JwtVersion字段，代表最后一次发放的版本号。
 
+在数据库设计时，让这个值自增。
+
+```C#
+public class JwtValidationFilter : IAsyncActionFilter
+{
+
+    private readonly IMemoryCache _memoryCache;
+    private readonly UserManager<User> _userManager;
+
+    public JwtValidationFilter(IMemoryCache memoryCache, UserManager<User> userManager)
+    {
+        _memoryCache = memoryCache;
+        _userManager = userManager;
+    }
+
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    {
+        var ctxUser = context.HttpContext.User;
+        var claimUserId = ctxUser.FindFirst(ClaimTypes.NameIdentifier);
+        if (claimUserId == null)
+        {
+            await next();
+            return;
+        }
+        var userId = long.Parse(claimUserId.Value);
+        var cacheKey = $"JwtValidationFilter.UserInfo.{userId}";
+        User? user = await _memoryCache.GetOrCreateAsync(cacheKey, async e =>
+        {
+            e.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5);
+            return await _userManager.FindByIdAsync(userId.ToString());
+        });
+        if (user == null)
+        {
+            var objectResult = new ObjectResult($"UserId:{userId} Not Found")
+            {
+                StatusCode = (int)HttpStatusCode.Unauthorized
+            };
+            context.Result = objectResult;
+            return;
+        }
+
+        var claimVersion = ctxUser.FindFirst(ClaimTypes.Version);
+        if (claimVersion?.Value != null)
+        {
+            var claimVersionValue = long.Parse(claimVersion.Value);
+            if (claimVersionValue >= user.JwtVersion)
+            {
+                await next();
+            }
+            else
+            {
+                var objectResult = new ObjectResult($"UserId:{userId} Not Found")
+                {
+                    StatusCode = (int)HttpStatusCode.Unauthorized
+                };
+                context.Result = objectResult;
+                return;
+            }
+        }
+    }
+}
+```
+
+```C#
+service.Configure<MvcOptions>(opt =>
+{
+    opt.Filters.Add<JwtValidationFilter>();
+});
+```
+
+## 使用托管服务执行后台代码
+
+主要用处是写执行在后台的代码。
+
+- 凌晨三点下载数据
+
+- 每隔5s数据同步
+
+等等其他操作。
+
+### 1，托管服务的基本使用
+
+
+>需要包 Microsoft.Extensions.Hosting.WindowsServices
+
+```C#
+
+public class DemoBgService:BackgroundService
+{
+    private readonly ILogger <DemoBgService> _logger;
+
+    public DemoBgService(ILogger<DemoBgService> logger)
+    {
+        _logger = logger;
+    }
+
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        await  Task.Delay(5000,stoppingToken);
+        Console.WriteLine("准备读取文件");
+        var readAllTextAsync = await File.ReadAllTextAsync("E:\\CSharpProject\\LearnCSharp\\LearnCSharopDoc\\Git学习.md");
+        Console.WriteLine("正在读取文件");
+        await Task.Delay(20000, stoppingToken);
+        Console.WriteLine("读取完成");
+        _logger.LogInformation(readAllTextAsync);
+    }
+}
+```
+
+```C#
+builder.Services.AddHostedService<DemoBgService>();
+```
+
+### 2，托管服务中使用依赖注入的陷阱
+
+托管服务是以单例生命周期依赖注入到容器中的。按照容器的要求，长生命周期的服务不能依赖短生命周期的服务。因此我们可以在托管服务中注入生命周期为单例的服务。
+
+我们通过IServiceScopeFactory来创建短生命周期服务。
+
+### 3，数据的定时导出
+
+实例：每5s对数据库数据进行汇总，汇总结果写入文件
+
+```C#
+public class ExportStatisticBgService : BackgroundService
+{
+
+    private readonly EFContext _context;
+    private readonly ILogger<ExportStatisticBgService> _logger;
+    private readonly IServiceScope _scope;
+
+    public ExportStatisticBgService(IServiceScopeFactory scopeFactory)
+    {
+        _scope = scopeFactory.CreateScope();
+        var scopeServiceProvider = _scope.ServiceProvider;
+        _context = scopeServiceProvider.GetRequiredService<EFContext>();
+        _logger = scopeServiceProvider.GetRequiredService<ILogger<ExportStatisticBgService>>();
+    }
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while ((!stoppingToken.IsCancellationRequested))
+        {
+            try
+            {
+                await DoExecuteAsync();
+                await Task.Delay(5000, stoppingToken);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"{e.Message}");
+                await Task.Delay(5000, stoppingToken);
+            }
+        }
+    }
+
+    private async Task DoExecuteAsync()
+    {
+        var queryable = _context.Books;
+        var sb = new StringBuilder();
+        sb.AppendLine($"Date:{DateTime.Now:yyyy/MM/dd}");
+        foreach (var item in queryable)
+        {
+            sb.Append(item.Name).AppendLine($"{item.Price}");
+        }
+        await File.WriteAllTextAsync("E:/1.txt", sb.ToString());
+        _logger.LogInformation("导出完成");
+    }
+
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        _scope.Dispose();
+    }
+}
+```
+
+这里使用了`IServiceScopeFactory`来注入生命周期。
+
+## 请求数据的校验
+
+### 1，Core内置的校验不足
+
+>System.ComponentModel.Annotations
+
+定义了很多校验规则.
+
+- 无论哪种校验规则都是模型类耦合在一起的,违反了面对对象的``单一职责原则``.
+- Core的内置校验不够多.
+
+### 2，FluentValidation的使用
+
+推荐FluentValidation。
+
+这个包可以使用在控制台项目，Core项目，WPF项目。
+
+查找包`FluentValidation.AspNetCore`
+
+>FluentValidation.AspNetCore
+
+```C#
+builder.Services.AddFluentValidation(x =>
+{
+    var executingAssembly = Assembly.GetExecutingAssembly();
+    x.RegisterValidatorsFromAssembly(executingAssembly);
+});
+```
+
+```C#
+public record LoginRequest(string Email,string NewPassword,string NewPassword2);
+```
+
+```C#
+public class LoginRequestValidator:AbstractValidator<LoginRequest>
+{
+    public LoginRequestValidator()
+    {
+        RuleFor(x => x.Email)
+            .NotNull()
+            .EmailAddress()
+            .Must(x => x.EndsWith("qq.com") || x.EndsWith("163.com")).WithMessage("只支持QQ和163邮箱");
+        RuleFor(x => x.NewPassword)
+            .NotNull()
+            .Length(6, 10)
+            .WithMessage("密码在6~10位之间")
+            .Equal(a => a.NewPassword2).WithMessage("两次密码需要一致");
+    }
+}
+```
+
+![image-20230612111813038](c#中高级学习教程.assets/image-20230612111813038.png)
+
+Fluent和Core内置的校验可以共存，但是建议只使用一种。
+
+### 3，在Fluent中注入服务
+
+```C#
+public class BookRequestValidator : AbstractValidator<Book>
+{
+    public BookRequestValidator(EFContext ctx)
+    {
+        RuleFor(x => x.Name)
+            .NotNull().Must(x => ctx.Books.Any(a => a.Name == x)).WithMessage("书名已存在");
+        RuleFor(x => x.Price)
+            .NotNull();
+        //异步方法
+        RuleFor(x => x.Name)
+            .NotNull().MustAsync((x, _) => ctx.Books.AnyAsync(a => a.Name == x));
+    }
+}
+```
+
+## SingleR服务端消息推送
+
+为了实现服务器端向客户端推动消息，08年诞生了WebSocket协议。
+
+基于TCP，支持二进制通信。
+
+CoreSingleR是微软对WebSocket的封装。
+
+### 1，SingleR的基本使用
+
+Hub：集线器，用于在服务端和所有的客户端进行数据交换，所有链接到集线器的程序都可以互相通信。
+
+实例：简单的聊天室应用
+
+需要创建前端项目
+
+```
+npm install @microsoft/signalr					
+```
+
+```C#
+builder.Services.AddSignalR();
+var urls = new string[] { "http://localhost:8080" };
+builder.Services.AddCors(opt =>
+{
+    opt.AddDefaultPolicy(build => build
+        .WithOrigins(urls)
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials());
+});
+
+app.UseCors();
+app.MapHub<ChatRoomHub>("/Hubs/ChatRoomHub");
+```
+
+```C#
+/// <summary>
+/// ChatRoomHub
+/// 定义的类可以被客户端调用
+/// </summary>
+public class ChatRoomHub:Hub
+{
+    public Task SendPublicMessage(string message)
+    {
+        var connectionId = this.Context.ConnectionId;
+        var msg = $"{connectionId}-{DateTime.Now:yyyy/MM/dd hh:mm:ss}:{message}";
+        return Clients.All.SendAsync("ReceivePublicMessage", msg);
+    }
+}
+```
+
+```vue
+<template>
+  <input type="text" v-model="state.userMessage" v-on:keypress="txtMsgOnKeyPress" />
+  <div>
+      <ul>
+          <li v-for="(msg, index) in state.messages" :key="index">{{ msg }}</li>
+      </ul>
+  </div>
+</template>
+
+<script>
+import { reactive, onMounted } from "vue";
+import * as SignalR from "@microsoft/signalr";
+let connection;
+export default {
+  name:"Login_",
+  setup() {
+      const state = reactive({ userMessage: "", messages: [] });
+      var  txtMsgOnKeyPress=async function (e) {
+        console.log(e )
+          if (e.charCode != 13) return;
+          connection.invoke("SendPublicMessage", state.userMessage);
+          state.userMessage = "";
+      };
+      onMounted(async function () {
+          connection = new SignalR.HubConnectionBuilder()
+          .withUrl("http://localhost:5252/Hubs/ChatRoomHub")
+          .withAutomaticReconnect().build();
+          await connection.start();
+          connection.on("ReceivePublicMessage", (msg) => {
+              state.messages.push(msg);
+          });
+      });
+      return {state,txtMsgOnKeyPress};
+  }
+};
+</script>
+```
 
+### 2，协议协商
 
+![image-20230612135809268](c#中高级学习教程.assets/image-20230612135809268.png)
 
+![image-20230612135829561](c#中高级学习教程.assets/image-20230612135829561.png)
 
+先向服务器发送`http://localhost:5252/Hubs/ChatRoomHub/negotiate?negotiateVersion=1`	请求，返回
 
+```json
+{
+    "negotiateVersion": 1,
+    "connectionId": "OAHxOnLouGLgraXgLtrf0w",
+    "connectionToken": "1mtm_q6LCpBM5YSKCepiug",
+    "availableTransports": [
+        {
+            "transport": "WebSockets",
+            "transferFormats": [
+                "Text",
+                "Binary"
+            ]
+        },
+        {
+            "transport": "ServerSentEvents",
+            "transferFormats": [
+                "Text"
+            ]
+        },
+        {
+            "transport": "LongPolling",
+            "transferFormats": [
+                "Text",
+                "Binary"
+            ]
+        }
+    ]
+}
+```
 
+connectionId：表示服务器端为链接分配的Id。
 
+availableTransports：表示服务器端支持的协议
 
+在单个服务器上，这样没有问题，但是在多个服务器集群中这样处理就会有问题，比如协商请求被A处理，但是WebSocket请求被B处理，由于服务器A在客户端没有这个协商段的上下文信息，因此WebSocket请求失败。
 
+要处理这样的问题，有两个方法：**黏性会话**和**禁用协商**。
 
+**黏性会话**：会负载均衡进行配置，将同一个客户端的请求都转发给同一台服务器。这样就避免了协商请求与Socket请求由不同服务器处理的问题。
 
+**禁用协商**：客户端不与服务端进行网络协议的协商，而是直接向服务器发送Socket请求。由于没有协商，也就没有两次请求状态保持的问题，但是在Socket一旦链接之后，客户端就和服务端建立了持续链接的网路通道，在通道中的后续往返，都有同一台服务器处理。
 
+```vue
+const option = {skipNegotiation:true,transport:SignalR.HttpTransportType.WebSockets};
+onMounted(async function () {
+  connection = new SignalR.HubConnectionBuilder()
+  .withUrl("http://localhost:5252/Hubs/ChatRoomHub",option)
+  .withAutomaticReconnect().build();
+  await connection.start();
+  connection.on("ReceivePublicMessage", (msg) => {
+      state.messages.push(msg);
+  });
+});
+```
 
+skipNegotiation：跳过协商
 
+transport：强制使用的通讯方式
 
+### 3，SignalR的分布式部署
 
+假设服务器A，B都布置了聊天室程序，客户端1，2连接到A；客户端3，4链接到B。1发送信息只有1，2能看见3，4看不见；3发送信息，只有4能看见，1，2看不见。我们可以让多个集线器链接到消息队列中，利用消息队列完成跨服务器的消息投递。
 
+>需要包Microsoft.AspNetCore.SignalR.StackExchangeRedis
 
 
 
+不看了，继续看下面。看的头疼
 
+## Core项目发布
 
 
 
@@ -5207,20 +5611,6 @@ service.AddSwaggerGen(x =>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 
 
 
