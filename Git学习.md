@@ -612,7 +612,15 @@ TLS certificate verification has been disabled!
 git config --global http.sslVerify true
 ```
 
+2，
 
+```C#
+src refspec main does not match any
+```
+
+切换到对应远程库的分支名称，重新Add和commit
+
+在重新pull
 
 
 
