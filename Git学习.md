@@ -600,6 +600,18 @@ git config --global color.ui true
 git config --global alias.st status
 ```
 
+## 常见错误
+
+```
+TLS certificate verification has been disabled!
+```
+
+缺少安全认证，重启安全认证即可
+
+```
+git config --global http.sslVerify true
+```
+
 
 
 
