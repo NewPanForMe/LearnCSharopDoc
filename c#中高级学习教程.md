@@ -5742,6 +5742,134 @@ string WriteDraw(){
 一个典型的用例处理模型如下
 
 - 准备操作需要的数据，一般从数据库或者外部数据源。
+- 执行一个或者多个领域模型做出的业务操作。
+- 把实体类的操作结果应用于外部系统
+
+领域模型和外部系统之间是隔离的，没有直接交互。也就是说领域内的操作不会涉及读写数据库的操作。这样可以进行很好的责任划分：业务逻辑放入领域服务，而外部系统的交互逻辑应该放入应用系统。
+
+聚合向相关的两个名词：仓储，工作单元
+
+仓储：仓储负责数据的读取和保存。实体类只负责业务逻辑的处理。一个聚合对应一个用来实现数据持久化的仓储。
+
+### 11，领域时间与集成事件
+
+面对对象的原则之一：对扩展开放，对修改关闭。
+
+事件机制的优点
+
+- 关注点分离。方法各司其职，业务逻辑清晰，代码可读性，可维护性很高。
+- 扩展容易。想要添加功能，只要新增事件绑定即可。
+- 用户体验好。我们可以将其他方法异步运行，不影响体验。
+- 容错性更高
+
+## DDD落地
+
+### 1，贫血模型和充血模型
+
+贫血模型：指一个类中只有属性或者变量，没有方法。站在开发人员角度
+
+```C#
+public class User
+{
+    public string UserName { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
+    public int Credit { get; set; } =0;
+}
+```
+
+使用贫血模型的代码
+
+```C#
+public void Test()
+{
+    var user = new User() {Credit = 10,UserName = "Ys",PasswordHash = "123345".GetHashCode().ToString()};
+    var pwd = Console.ReadLine();
+    if (pwd.GetHashCode().ToString() == user.PasswordHash)
+    {
+        user.Credit += 5;
+        Console.WriteLine("登录成功");
+    }
+    else
+    {
+        user.Credit -= 3;
+        Console.WriteLine("登录失败");
+    }
+}
+```
+
+充血模型：指一个类中既有属性，变量也有方法。站在业务的角度
+
+```C#
+public class User
+{
+    public string UserName { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
+    public int Credit { get; set; } =0;
+
+
+    public User(string userName)
+    {
+        this.UserName = userName;
+        this.Credit = 10;
+    }
+
+    public void ChangePassword(string newValue)
+    {
+        if (newValue.Length < 6)
+            throw new ArgumentException("密码长度太短");
+        this.PasswordHash = newValue;
+    }
+
+    public bool CHeckPassword(string password)
+    {
+        return PasswordHash == password;
+    }
+
+    public void DeductCredit(int delta)
+    {
+        if (delta < 0)
+            throw new ArgumentException("额度不能小于0");
+        this.Credit -= delta;
+    }
+    public void AddCredit(int delta)
+    {
+        this.Credit += delta;
+    }
+}
+```
+
+使用充血模型的方法
+
+```C#
+public void Test()
+{
+    var user = new User("ys");
+    user.ChangePassword("123456");
+    var pwd = Console.ReadLine() ?? "";
+    if (user.CHeckPassword(pwd))
+    {
+        user.AddCredit(5);
+        Console.WriteLine("登录成功");
+    }
+    else
+    {
+        user.DeductCredit(3);
+        Console.WriteLine("登录失败");
+    }
+}
+```
+
+从单一职责原则中，将逻辑代码方法User类中，在其他地方调用User就可以直接使用方法。
+
+### 2，EFCore中对实体类属性操作的秘密
+
+
+
+
+
+
+
+
 
 
 
