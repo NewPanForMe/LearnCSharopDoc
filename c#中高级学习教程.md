@@ -5677,6 +5677,23 @@ consul的监控页面
 http://127.0.0.1:8500/
 ```
 
+Consul配置的访问端口就是WebApi的启动端口
+
+### Gateway
+
+下游服务器：提供Api服务的REST Service Server
+
+- Downstream 是**下游**服务配置 我们刚刚创建的提供API服务的配置
+- 会指定PathTemplate，Host和Port等信息（具体调哪一台服务器是由我说了算）
+
+上游服务器：提供Web网页服务的Web Server
+
+- UpStream 是**上游**服务配置，服务消费方（eg.MVC Server, SPA App）的调用配置（你要怎么按照什么URL格式和什么HTTP类型调用我才能理解）
+
+
+
+
+
 
 
 
