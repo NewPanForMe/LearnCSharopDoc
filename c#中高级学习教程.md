@@ -14,6 +14,273 @@
 
 ## 系统中优先使用异步方法
 
+## Startup默认格式
+
+```c#
+public class Startup
+{
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    // 该方法由运行时调用，使用该方法向DI容器添加服务
+    public void ConfigureServices(IServiceCollection services)
+    {
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    // 该方法由运行时调用，使用该方法配置HTTP请求管道
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IHostApplicationLifetime appLifetime)
+    {
+    }
+}
+
+```
+
+```C#
+using Consul;
+
+namespace ServiceA;
+
+public class Startup
+{
+
+    private IConfiguration Configuration;
+
+    public Startup(IConfiguration configuration)
+    {
+        this.Configuration = configuration;
+    }
+
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    // 该方法由运行时调用，使用该方法向DI容器添加服务
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddMvc();
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    // 该方法由运行时调用，使用该方法配置HTTP请求管道
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IHostApplicationLifetime appLifetime)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+        app.UseRouting();
+        app.UseAuthorization();
+        app.UseEndpoints(x => { x.MapControllers(); });
+        RegisterConsul(appLifetime);
+    }
+
+
+    private void RegisterConsul(IHostApplicationLifetime appLifetime)
+    {
+        using var client = new ConsulClient(x => x.Address = new Uri("http://127.0.0.1:8500"));
+        var check = new AgentServiceCheck()
+        {
+            DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),//服务停止后，5s开始接触注册
+            HTTP = "http://localhost:5086/api/Health/CheckHealth",//健康检查
+            Interval = TimeSpan.FromSeconds(10),//每10s轮询一次健康检查
+            Timeout = TimeSpan.FromSeconds(5),
+        };
+        var service = new AgentServiceRegistration()
+        {
+            Checks = new[] { check },
+            ID = Guid.NewGuid().ToString(),
+            Name = "ServiceA",
+            Port = 5086,
+            Address = "http://localhost"
+        };
+        client.Agent.ServiceRegister(service).Wait();
+        appLifetime.ApplicationStopped.Register(() =>
+        {
+            using var consulClient = new ConsulClient(x => x.Address = new Uri("http://127.0.0.1:8500"));
+            consulClient.Agent.ServiceDeregister(service.ID).Wait();
+        });
+    }
+
+
+
+}
+```
+
+
+
+
+
+```C#
+CreateHostBuilder(args).Build().Run();
+static IHostBuilder CreateHostBuilder(string[] args) =>
+   Host.CreateDefaultBuilder(args)
+       .ConfigureWebHostDefaults(webBuilder =>
+       {
+           webBuilder.UseStartup<Startup>();
+       });
+```
+
+## Ocelot
+
+```json
+{
+    "ReRoutes": [],
+    "GlobalConfiguration": {}
+}
+```
+
+```josn
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/{url}",
+            "DownstreamScheme": "http",
+            "DownStreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "5086"
+                }
+            ],
+            "UpstreamPathTemplate": "/ServiceA/{url}",
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "ServiceName": "ServiceA",
+            "UseServiceDiscovery": true
+            //"LoadBalanceOptions": {
+            //    "Type": "RoundRobin"
+            //}
+        },
+        {
+            "DownstreamPathTemplate": "/api/{url}",
+            "DownstreamScheme": "http",
+            "DownStreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "5087"
+                }
+            ],
+            "UpstreamPathTemplate": "/ServiceB/{url}",
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "ServiceName": "ServiceB",
+            "UseServiceDiscovery": true
+            //"LoadBalanceOptions": {
+            //    "Type": "RoundRobin"
+            //}
+        }
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "http://localhost:5131",
+        "ServiceDiscoveryProvider": {
+            "Host": "localhost",
+            "Port": 8500,
+            "Type": "Consul"
+        }
+    }
+}
+
+```
+
+**LoadBalanceOptions**
+
+LeastConnection - 最少连接，跟踪哪些服务正在处理请求，并把新请求发送到现有请求最少的服务上。该算法状态不在整个Ocelot集群中分布。
+
+RoundRobin - 轮询可用的服务并发送请求。 该算法状态不在整个Ocelot集群中分布。
+
+NoLoadBalancer - 不负载均衡，从配置或服务发现提供程序中取第一个可用的下游服务。
+
+CookieStickySessions - 使用cookie关联所有相关的请求到制定的服务。下面有更多信息。
+
+```josn
+ {
+            "DownstreamPathTemplate": "/Light/api/{all}",
+            "UpstreamPathTemplate": "/api/manhui_wms_light/{all}",
+            "UpstreamHttpMethod": ["Get", "Post"],
+            "DownstreamHttpMethod": null,
+            "AddHeadersToRequest": {},
+            "UpstreamHeaderTransform": {},
+            "DownstreamHeaderTransform": {},
+            "AddClaimsToRequest": {},
+            "RouteClaimsRequirement": {},
+            "AddQueriesToRequest": {},
+            "ChangeDownstreamPathTemplate": {},
+            "RequestIdKey": null,
+            "FileCacheOptions": { "TtlSeconds": 0, "Region": null },
+            "RouteIsCaseSensitive": false,
+            "ServiceName": "manhui_wms_light",
+            "ServiceNamespace": null,
+            "DownstreamScheme": "http",
+            "QoSOptions": { "ExceptionsAllowedBeforeBreaking": 0, "DurationOfBreak": 0, "TimeoutValue": 0 },
+            "LoadBalancerOptions": { "Type": "LeastConnection", "Key": null, "Expiry": 0 },
+            "RateLimitOptions": { "ClientWhitelist": [], "EnableRateLimiting": false, "Period": null, "PeriodTimespan": 0.0, "Limit": 0 },
+            "AuthenticationOptions": { "AuthenticationProviderKey": null, "AllowedScopes": [] },
+            "HttpHandlerOptions": { "AllowAutoRedirect": false, "UseCookieContainer": false, "UseTracing": false, "UseProxy": true, "MaxConnectionsPerServer": 2147483647 },
+            "DownstreamHostAndPorts": [],
+            "UpstreamHost": null,
+            "Key": null,
+            "DelegatingHandlers": [],
+            "Priority": 1,
+            "Timeout": 0,
+            "DangerousAcceptAnyServerCertificateValidator": false,
+            "SecurityOptions": { "IPAllowedList": [], "IPBlockedList": [] },
+            "DownstreamHttpVersion": null
+        },
+```
+
+**可使用的网关配置**
+
+```C#
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/{url}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/ServiceA/{url}",
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "ServiceName": "ServiceA",
+            "UseServiceDiscovery": true,
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            }
+        },
+        {
+            "DownstreamPathTemplate": "/api/{url}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/ServiceB/{url}",
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "ServiceName": "ServiceB",
+            "UseServiceDiscovery": true,
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            }
+        }
+    ],
+    "GlobalConfiguration": {
+        "ServiceDiscoveryProvider": {
+            "Host": "localhost",
+            "Port": 8500,
+            "Type": "Consul"
+        }
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
 ## 数据库链接字符串
 
 ### PostgreSQL
@@ -5612,7 +5879,7 @@ Gateway：网关
 
 #### 服务治理
 
-![image-20230617185945882](D:\LearnDoc\pic\image-20230617185945882.png)
+![image-20230617185945882](~\pic\image-20230617185945882.png)
 
 consul服务治理的作用
 
@@ -5690,15 +5957,11 @@ Consul配置的访问端口就是WebApi的启动端口
 
 - UpStream 是**上游**服务配置，服务消费方（eg.MVC Server, SPA App）的调用配置（你要怎么按照什么URL格式和什么HTTP类型调用我才能理解）
 
+#### 网关
 
-
-
-
-
-
-
-
-
+```
+https://www.jianshu.com/p/f35b9e8a040e
+```
 
 ## DDD实战
 
