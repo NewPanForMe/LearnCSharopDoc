@@ -293,7 +293,21 @@ CookieStickySessions - 使用cookie关联所有相关的请求到制定的服务
 
 
 
+## EFContext基础模板
 
+```C#
+public class BmsV1DbContext : DbContext
+{
+    public BmsV1DbContext(DbContextOptions<BmsV1DbContext> options) : base(options) { }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+    }
+}
+```
+
+需要使用 Microsoft.EntityFrameworkCore包
 
 
 
