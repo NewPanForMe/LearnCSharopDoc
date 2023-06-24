@@ -2232,6 +2232,8 @@ catch (Exception e)
 
 #### Nlog
 
+>需要包nlog.extensions.logging
+
 ```XML
 <?xml version="1.0" encoding="utf-8" ?>
 <nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
@@ -4349,6 +4351,27 @@ if (staticType != null)
     });
 }
 ```
+
+```C#
+  //获取程序下所有的程序集
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+        assemblies.ForEach(assembly =>
+        {
+            //获取跟BMS相关的类
+            var types = assembly.GetTypes().Where(x=>x is { FullName: { }, IsClass: true } && x.FullName.Contains("BMS")).ToList();
+            types.ForEach(type =>
+            {
+                var list = type.GetInterfaces().Where(x=>x==typeof(IBll)).ToList();
+                if(list.Count>0)
+                    service.AddScoped(type);
+                var staticBll = type.GetInterfaces().Where(x => x == typeof(IStaticBll)).ToList();
+                if (staticBll.Count > 0)
+                    service.AddSingleton(type);
+            });
+        });
+```
+
+
 
 ### 配置系统和ASP Net  Core集成
 
