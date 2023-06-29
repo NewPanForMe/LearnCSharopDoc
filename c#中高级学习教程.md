@@ -2241,14 +2241,26 @@ catch (Exception e)
       autoReload="true"
       internalLogLevel="Info">
 	<targets>
-		<target xsi:type="File" name="allfile" fileName="log\${shortdate}\nlog-all-1.log"
+
+		<target xsi:type="File"
+		        name="info"
+		        fileName="$log\${shortdate}\info\info.txt"
+		        layout ="${longdate}|${logger}|${uppercase:${level}}|${message} ${exception}"/>
+		<target xsi:type="File"
+		        name="error"
+		        fileName="$log\${shortdate}\error\error.txt"
+		        layout ="${longdate}|${logger}|${uppercase:${level}}|${message} ${exception}"/>
+		<target xsi:type="File" name="allfile" fileName="$log\${shortdate}\all\all.txt" 
 		        layout="${longdate}|${event-properties:item=EventId:whenEmpty=0}|${level:uppercase=true}|${logger}|${message} ${exception:format=tostring}" />
-		<target xsi:type="File" name="systemServices" fileName="log\${shortdate}\Log-SystemServices.log" 
+		<target xsi:type="File" name="systemServices" fileName="log\${shortdate}\Log-SystemServices.log"  archiveAboveSize="1000000"
+				maxArchiveFile="2"
 		        layout="${longdate}|${event-properties:item=EventId:whenEmpty=0}|${level:uppercase=true}|${logger}|${message} ${exception:format=tostring}" />
 		<target xsi:type="Console" name="lifetimeConsole" layout="${MicrosoftConsoleLayout}" />
 	</targets>
 	<rules>
-		<logger name="*" minlevel="Trace" writeTo="allfile" />
+		<logger name="*" minlevel="Info" writeTo="info" />
+		<logger name="*" minlevel="error" writeTo="error" />
+
 		<logger name="SystemServices.*" minlevel="Warn"  maxlevel="Fatal" final="true" writeTo="systemServices" />
 		<logger name="*" minlevel="Trace" writeTo="ownFile-web" />
 	</rules>
