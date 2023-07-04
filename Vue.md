@@ -144,3 +144,51 @@ body {
 
 ```
 
+## 全局配置
+
+
+
+```C@
+app.config.globalProperties.$layer = layer;
+```
+
+## 路由
+
+```C#
+const router = new VueRouter({
+    routes: [
+        {
+            path: '/notes',
+            name: 'notes',
+            component: () => import('@/views/Notes')
+	},
+	{
+            path: '/login',
+            name: 'login',
+            component: () => import('@/views/Login')
+	},
+    ]
+})
+
+//全局守卫
+router.beforeEach((to, from, next) => {
+  //用户访问的是'/notes'
+  if(to.path === '/notes') {
+    //查看一下用户是否保存了登录状态信息
+    let user = 
+    JSON.parse(localStorage.getItem('user'))
+    if(user) {
+      //如果有，直接放行
+      next();
+    }else {
+      //如果没有，用户跳转登录页面登录
+      next('/login')
+    }
+  }else {
+    next();
+  }
+})
+```
+
+
+
