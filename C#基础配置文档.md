@@ -314,6 +314,27 @@ DependencyContext.Default.CompileLibraries
 获取CLR中的所有库(我也是一知半解)
 ```
 
+```C#
+var assemblies = Assembly.GetEntryAssembly()?.GetReferencedAssemblies().Select(Assembly.Load).ToList();
+assemblies?.ForEach(assembly =>
+{
+    var list2 = assembly.GetTypes().Where(x => x.IsClass && x.GetInterfaces().Any(y => y == typeof(IBll))).ToList();
+    list2.ForEach(type =>
+    {
+        service.AddScoped(type);
+    });
+});
+assemblies?.ForEach(assembly =>
+{
+    var list2 = assembly.GetTypes().Where(x => x.IsClass && x.GetInterfaces().Any(y => y == typeof(IStaticBll))).ToList();
+    list2.ForEach(type =>
+    {
+        service.AddSingleton(type);
+    });
+});
+
+```
+
 
 
 
