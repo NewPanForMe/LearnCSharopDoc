@@ -168,7 +168,7 @@ readyToRun:启动速度变快，编译速度变慢
 
 裁剪：系统判断哪些类库不需要，编译时就不添加。反射慎用
 
-另一个我反编译工具：dnSpy
+另一个反编译工具：dnSpy
 
 
 
@@ -1135,41 +1135,41 @@ var myInts1 = MyInts(arrays, ints); Console.WriteLine(string.Join(",", myInts1))
 ##### 常用集合类扩展语法
 
 ```C#
-     public static List<Employee> Employees  = new List<Employee>()
-        {
-            new Employee()
-            {
-                Id = 1,
-                Age = 10,
-                Name = "袁赛1",
-                Gender = true,
-                Salary =3000
-            },
-            new Employee()
-            {
-                Id = 2,
-                Age = 12,
-                Name = "袁赛2",
-                Gender = false,
-                Salary =20000
-            },
-            new Employee()
-            {
-                Id = 3,
-                Age = 32,
-                Name = "袁赛3",
-                Gender = false,
-                Salary =1500
-            },
-            new Employee()
-            {
-                Id = 4,
-                Age = 43,
-                Name = "袁赛4",
-                Gender = true,
-                Salary =3200
-            },
-        };
+public static List<Employee> Employees  = new List<Employee>()
+{
+    new Employee()
+    {
+        Id = 1,
+        Age = 10,
+        Name = "袁赛1",
+        Gender = true,
+        Salary =3000
+    },
+    new Employee()
+    {
+        Id = 2,
+        Age = 12,
+        Name = "袁赛2",
+        Gender = false,
+        Salary =20000
+    },
+    new Employee()
+    {
+        Id = 3,
+        Age = 32,
+        Name = "袁赛3",
+        Gender = false,
+        Salary =1500
+    },
+    new Employee()
+    {
+        Id = 4,
+        Age = 43,
+        Name = "袁赛4",
+        Gender = true,
+        Salary =3200
+    },
+};
 ```
 
 ###### 1，Where
