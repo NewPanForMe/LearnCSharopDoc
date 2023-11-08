@@ -477,3 +477,10 @@ public override CurrentUser CurrentUser {
 }
 ```
 
+将Exe文件变成系统服务
+
+```dos
+sc create WakeProcess binpath=D:\Pro\WakeProcess\WakeProcess\bin\Debug
+sc  description   WakeProcess  唤醒程序的程序
+```
+
